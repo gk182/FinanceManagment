@@ -31,7 +31,7 @@ Trước khi bắt đầu, đảm bảo bạn đã cài:
 
 1. **Clone project**
 ```bash
-git clone https://github.com/your-username/finance_management.git
+https://github.com/gk182/FinanceManagment
 cd finance_management
 ```
 
@@ -107,7 +107,7 @@ Cấu hình trong `pubspec.yaml`:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/icon/icon.png"
+  image_path: "assets/icon/app_icon.png"
 ```
 
 Chạy:
