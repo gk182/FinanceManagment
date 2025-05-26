@@ -80,26 +80,6 @@ android {
 }
 ```
 
----
-
-## 📁 Cấu trúc thư mục chính
-
-```
-lib/
-├── core/
-│   └── firebase/
-│       └── firebase_config.dart    # Hàm khởi tạo Firebase
-├── features/
-│   ├── auth/
-│   │   ├── login_screen.dart
-│   │   └── auth_service.dart
-│   └── home/
-│       └── home_screen.dart
-├── services/
-│   └── firestore_service.dart      # Tương tác Firestore
-├── firebase_options.dart           # Tự động tạo bởi flutterfire CLI
-└── main.dart
-```
 
 ---
 
@@ -138,14 +118,6 @@ flutter pub run flutter_launcher_icons
 
 ---
 
-## 🧪 Test
-
-```bash
-flutter test
-```
-
----
-
 ## ❓ Gặp lỗi?
 
 - Dọn sạch:
@@ -158,8 +130,3 @@ flutter pub get
 
 ---
 
-## 👨‍💻 Người phát triển
-
-- Tên bạn hoặc team
-- Email
-- Github
