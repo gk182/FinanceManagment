@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "694098863062",
+    "project_id": "flutter-b1109",
+    "storage_bucket": "flutter-b1109.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694098863062:android:0babe37f9c6589915bba77",
+        "android_client_info": {
+          "package_name": "com.example.finance_managment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdCJ8KzaafZVDf7Wf5zPIgDqGBsvfXUDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
