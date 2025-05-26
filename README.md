@@ -32,7 +32,7 @@ Trước khi bắt đầu, đảm bảo bạn đã cài:
 1. **Clone project**
 ```bash
 https://github.com/gk182/FinanceManagment
-cd finance_management
+cd FinanceManagment
 ```
 
 2. **Cài đặt dependencies**
