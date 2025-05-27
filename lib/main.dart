@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/firebase/firebase_config.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // Đảm bảo binding đã được khởi tạo
@@ -34,17 +36,39 @@ class _FirebaseInitScreenState extends State<FirebaseInitScreen> {
   @override
   void initState() {
     super.initState();
-    initFirebase()
-        .then((_) {
-          setState(() {
-            _status = '✅ Firebase is initialized successfully!';
-          });
-        })
-        .catchError((error) {
-          setState(() {
-            _status = '❌ Failed to initialize Firebase:\n$error';
-          });
-        });
+    _initializeFirebaseAndCheckServices();
+  }
+
+  Future<void> _initializeFirebaseAndCheckServices() async {
+    try {
+      await initFirebase();
+
+      // Kiểm tra Firebase Auth
+      final user = FirebaseAuth.instance.currentUser;
+      final authStatus = user != null
+          ? '✅ Auth: Logged in as ${user.email}'
+          : '✅ Auth: Chưa đăng nhập';
+
+      // Kiểm tra Firestore
+      final doc = await FirebaseFirestore.instance
+          .collection('test')
+          .doc('check')
+          .get();
+
+      final firestoreStatus = doc.exists
+          ? '✅ Firestore: Document exists'
+          : '✅ Firestore: Document does not exist';
+
+      setState(() {
+        _status = '✅ Firebase is initialized successfully!\n\n'
+            '$authStatus\n'
+            '$firestoreStatus';
+      });
+    } catch (error) {
+      setState(() {
+        _status = '❌ Failed to initialize or access Firebase:\n$error';
+      });
+    }
   }
 
   @override
