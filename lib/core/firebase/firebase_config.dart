@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import '../../../firebase_options.dart'; // đường dẫn đúng nếu bạn dùng FlutterFire CLI
+import 'firebase_options.dart'; 
 
 Future<void> initFirebase() async {
   try {
