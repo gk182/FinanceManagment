@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:finance_managment/services/category_service.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -34,6 +35,8 @@ class _RegisterPageState extends State<RegisterPage> {
           'email': _emailController.text.trim(),
           'createdAt': Timestamp.now(),
         });
+        
+        await addDefaultCategories(userCredential.user!.uid);
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Đăng ký thành công!')),

@@ -1,3 +1,4 @@
+import 'package:finance_managment/pages/main_navigation_page.dart';
 import 'package:flutter/material.dart';
 import 'core/firebase/firebase_config.dart';
 import './pages/pages.dart';
@@ -17,9 +18,12 @@ class FinWiseApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/welcome': (_) => const WelcomePage(),
+
         '/login': (_) => const LoginPage(),
         '/register': (_) => const RegisterPage(),
-        '/home': (_) => const HomePage(),
+        
+        '/home': (_) => const MainNavigationPage(),
+
         '/transaction': (_) => const TransactionPage(),
         '/add-expense': (_) => const AddExpensePage(),
         '/add-income': (_) => const AddIncomePage(),

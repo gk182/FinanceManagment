@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'add_expense_page.dart';
 import 'add_income_page.dart';
-import '../categories/category_page.dart';
+import 'package:finance_managment/utils/user_helper.dart';
 
-final String uid =
-    'testUser123'; // ✅ Hoặc dùng FirebaseAuth.instance.currentUser?.uid nếu có login
+final String? uid =
+    UserHelper
+        .uid; // ✅ Hoặc dùng FirebaseAuth.instance.currentUser?.uid nếu có login
 
 class TransactionPage extends StatelessWidget {
   const TransactionPage({super.key});
@@ -14,17 +15,7 @@ class TransactionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 27, 231, 173),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.blueAccent,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const CategoryPage()),
-          );
-        },
-        child: const Icon(Icons.category),
-      ),
+
       body: SafeArea(
         child: Column(
           children: [
@@ -210,6 +201,76 @@ class TransactionPage extends StatelessWidget {
                                 : Icons.category;
 
                         return ListTile(
+                          onLongPress: () async {
+                            final action = await showDialog<String>(
+                              context: context,
+                              builder:
+                                  (_) => AlertDialog(
+                                    title: const Text("Transaction Options"),
+                                    content: const Text(
+                                      "Do you want to update or delete this transaction?",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed:
+                                            () => Navigator.pop(
+                                              context,
+                                              'update',
+                                            ),
+                                        child: const Text("Update"),
+                                      ),
+                                      TextButton(
+                                        onPressed:
+                                            () => Navigator.pop(
+                                              context,
+                                              'delete',
+                                            ),
+                                        child: const Text(
+                                          "Delete",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                            );
+
+                            if (action == 'delete') {
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(uid)
+                                  .collection('transactions')
+                                  .doc(transactions[index].id)
+                                  .delete();
+                            } else if (action == 'update') {
+                              final data =
+                                  transactions[index].data()
+                                      as Map<String, dynamic>;
+
+                              if (data['type'] == 'income') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (_) => AddIncomePage(
+                                          existingData: data,
+                                          docId: transactions[index].id,
+                                        ),
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (_) => AddExpensePage(
+                                          existingData: data,
+                                          docId: transactions[index].id,
+                                        ),
+                                  ),
+                                );
+                              }
+                            }
+                          },
                           leading: CircleAvatar(
                             backgroundColor: const Color(0xFFDFF5ED),
                             child: Icon(icon, color: Colors.black),

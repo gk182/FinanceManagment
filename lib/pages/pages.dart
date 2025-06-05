@@ -8,6 +8,8 @@ export './categories/add_category_page.dart';
 
 export './home/home_page.dart';
 
+export './profile/profile_page.dart';
+
 export './splash/splash_page.dart';
 
 export './transactions/transaction_page.dart';

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../models/category_model.dart'; // Đảm bảo bạn có file này
+import 'package:finance_managment/utils/user_helper.dart';
 
 class AddExpensePage extends StatefulWidget {
-  const AddExpensePage({super.key});
+  final Map<String, dynamic>? existingData;
+  final String? docId;
+  const AddExpensePage({super.key, this.existingData, this.docId});
 
   @override
   State<AddExpensePage> createState() => _AddExpensePageState();
@@ -18,12 +21,27 @@ class _AddExpensePageState extends State<AddExpensePage> {
   List<CategoryModel> _expenseCategories = [];
   int _selectedCategoryIndex = 0;
 
-  final String uid = 'testUser123'; // Hoặc dùng FirebaseAuth nếu có
+  final String? uid = UserHelper.uid; // Hoặc dùng FirebaseAuth nếu có
 
   @override
   void initState() {
     super.initState();
-    _fetchExpenseCategories();
+    _fetchExpenseCategories().then((_) {
+      if (widget.existingData != null) {
+        final data = widget.existingData!;
+        _amountController.text = data['amount'].toString();
+        _descController.text = data['description'];
+        _selectedDate = (data['date'] as Timestamp).toDate();
+
+        final index = _expenseCategories.indexWhere(
+          (cat) => cat.id == data['categoryId'],
+        );
+        if (index != -1) {
+          _selectedCategoryIndex = index;
+        }
+        setState(() {}); // cập nhật UI
+      }
+    });
   }
 
   Future<void> _fetchExpenseCategories() async {
@@ -70,36 +88,47 @@ class _AddExpensePageState extends State<AddExpensePage> {
 
     final category = _expenseCategories[_selectedCategoryIndex];
 
-    await FirebaseFirestore.instance
+    final data = {
+      'amount': amount,
+      'description': desc,
+      'category': category.name,
+      'categoryId': category.id,
+      'iconCode': category.iconCode,
+      'fontFamily': 'MaterialIcons',
+      'date': Timestamp.fromDate(_selectedDate),
+      'type': 'expense',
+    };
+
+    final transactionsRef = FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
-        .collection('transactions')
-        .add({
-          'amount': amount,
-          'description': desc,
-          'category': category.name,
-          'categoryId': category.id,
-          'iconCode': category.iconCode, // ✅ THÊM DÒNG NÀY
-          'fontFamily': 'MaterialIcons',
-          'date': Timestamp.fromDate(_selectedDate),
-          'type': 'expense',
-        });
+        .collection('transactions');
+
+    if (widget.docId != null) {
+      await transactionsRef.doc(widget.docId).update(data);
+    } else {
+      await transactionsRef.add(data);
+    }
 
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final isEditing = widget.existingData != null;
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 27, 231, 173),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const BackButton(color: Colors.white),
-        title: const Text(
-          'ADD NEW EXPENSE',
-          style: TextStyle(fontSize: 16, color: Colors.white),
+
+        title: Text(
+          isEditing ? 'EDIT EXPENSE' : 'ADD NEW EXPENSE',
+          style: const TextStyle(fontSize: 16, color: Colors.white),
         ),
+
         centerTitle: true,
       ),
       body: SafeArea(
@@ -227,9 +256,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
                               borderRadius: BorderRadius.circular(24),
                             ),
                           ),
-                          child: const Text(
-                            'Add',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          child: Text(
+                            isEditing ? 'Update' : 'Add',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),

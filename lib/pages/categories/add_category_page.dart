@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:finance_managment/utils/user_helper.dart';
 
 class AddCategoryPage extends StatefulWidget {
   const AddCategoryPage({super.key});
@@ -22,6 +23,22 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
     'Gift': Icons.card_giftcard,
     'Groceries': Icons.shopping_bag,
     'Rent': Icons.home,
+    'Entertainment': Icons.movie,
+    'Health': Icons.health_and_safety,
+    'Education': Icons.school,
+    'Utilities': Icons.lightbulb,
+    'Travel': Icons.flight,
+    'Clothing': Icons.checkroom,
+    'Insurance': Icons.security,
+    'Taxes': Icons.receipt_long,
+    'Savings': Icons.savings,
+    'Miscellaneous': Icons.more_horiz,
+    'Subscriptions': Icons.subscriptions,
+    'Pets': Icons.pets,
+    'Coffee': Icons.local_cafe,
+    'Electronics': Icons.devices_other,
+    'Sports': Icons.sports_soccer,
+    'Beauty': Icons.brush,
   };
 
   String _selectedIconName = 'Salary';
@@ -30,7 +47,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
   String _colorHex = '#4CAF50'; // bạn có thể làm danh sách chọn màu nếu cần
 
   Future<void> _saveCategory() async {
-    final uid = 'testUser123'; // dùng uid cố định cho test
+    final uid = UserHelper.uid; // dùng uid cố định cho test
 
     final name = _nameController.text.trim();
 

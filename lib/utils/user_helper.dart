@@ -5,7 +5,8 @@ class UserHelper {
 }
 
 // Cách sử dụng:
-// import 'package:your_project_name/helpers/user_helper.dart';
+// import 'package:finance_managment/utils/user_helper.dart';
+
 
 // void someFunction() {
 //   final userId = UserHelper.uid;
