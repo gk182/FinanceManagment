@@ -1,38 +1,28 @@
-class Category {
+class CategoryModel {
   final String id;
   final String name;
-  final String type; // 'income' hoặc 'expense'
+  final String type;
   final int iconCode;
   final String fontFamily;
-  final String color;
+  final String? color;
 
-  Category({
+  CategoryModel({
     required this.id,
     required this.name,
     required this.type,
     required this.iconCode,
     required this.fontFamily,
-    required this.color,
+    this.color,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'type': type,
-      'iconCode': iconCode,
-      'fontFamily': fontFamily,
-      'color': color,
-    };
-  }
-
-  factory Category.fromMap(String id, Map<String, dynamic> map) {
-    return Category(
+  factory CategoryModel.fromFirestore(Map<String, dynamic> data, String id) {
+    return CategoryModel(
       id: id,
-      name: map['name'],
-      type: map['type'],
-      iconCode: map['iconCode'],
-      fontFamily: map['fontFamily'],
-      color: map['color'],
+      name: data['name'],
+      type: data['type'],
+      iconCode: data['iconCode'],
+      fontFamily: data['fontFamily'],
+      color: data['color'],
     );
   }
 }
