@@ -4,9 +4,7 @@ import 'add_expense_page.dart';
 import 'add_income_page.dart';
 import 'package:finance_managment/utils/user_helper.dart';
 
-final String? uid =
-    UserHelper
-        .uid; // ✅ Hoặc dùng FirebaseAuth.instance.currentUser?.uid nếu có login
+final String? uid = UserHelper.uid; // ✅ Hoặc dùng FirebaseAuth.instance.currentUser?.uid nếu có login
 
 class TransactionPage extends StatelessWidget {
   const TransactionPage({super.key});

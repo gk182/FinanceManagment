@@ -1,4 +1,5 @@
-export './analytics/analytics_page.dart';
+export './analytics/analytics_screen.dart';
+export './analytics/analytics_screen_wrapper.dart';
 
 export './auth/login_page.dart';
 export './auth/register_page.dart';

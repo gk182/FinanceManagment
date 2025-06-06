@@ -14,7 +14,7 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
 
   final List<Widget> _pages = const [
     HomePage(),
-    AnalyticsPage(),
+    AnalyticsScreenWrapper(),
     TransactionPage(),
     CategoryPage(),
     ProfilePage(),

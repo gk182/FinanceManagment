@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:finance_managment/constant/app_colors.dart';
 
 class NavigationBarBottom extends StatelessWidget {
   final int currentIndex;
@@ -16,7 +17,7 @@ class NavigationBarBottom extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFE8F5E8), // Light green background
+        color: AppColors.LightGreen, // Light green background
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
@@ -47,7 +48,7 @@ class NavigationBarBottom extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF00d09e) : Colors.transparent,
+          color: isSelected ? AppColors.CaribbeanGreen : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Icon(
