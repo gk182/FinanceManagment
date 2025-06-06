@@ -3,6 +3,8 @@ export './analytics/analytics_screen_wrapper.dart';
 
 export './auth/login_page.dart';
 export './auth/register_page.dart';
+export './auth/reset_password_page.dart';
+
 
 export './categories/category_page.dart';
 export './categories/add_category_page.dart';

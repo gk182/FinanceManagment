@@ -1,40 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ResetPasswordPage extends StatefulWidget {
+  const ResetPasswordPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
-  String? error;
+  bool _isSending = false;
 
-  Future<void> _login() async {
+  Future<void> _sendResetEmail() async {
     if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
+      setState(() => _isSending = true);
+
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await FirebaseAuth.instance.sendPasswordResetEmail(
           email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
         );
 
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Đăng nhập thành công!')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Email reset the password has been sent")),
+        );
 
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pop(context); // Quay lại LoginPage
       } on FirebaseAuthException catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(e.message ?? 'Đã xảy ra lỗi')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message ?? 'Email failed')),
+        );
       } finally {
-        setState(() => _isLoading = false);
+        setState(() => _isSending = false);
       }
     }
   }
@@ -51,25 +49,18 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 const Text(
-                  "Welcome",
+                  "Reset Password",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 40),
                 _buildInputField(
-                  "Username or Email",
+                  "Email",
                   _emailController,
                   TextInputType.emailAddress,
                 ),
-                const SizedBox(height: 20),
-                _buildInputField(
-                  "Password",
-                  _passwordController,
-                  TextInputType.visiblePassword,
-                  isPassword: true,
-                ),
                 const SizedBox(height: 30),
                 ElevatedButton(
-                  onPressed: _isLoading ? null : _login,
+                  onPressed: _isSending ? null : _sendResetEmail,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff2dcc9f),
                     padding: const EdgeInsets.symmetric(
@@ -80,23 +71,14 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child:
-                      _isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text("Log In"),
+                  child: _isSending
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text("Send Email"),
                 ),
                 const SizedBox(height: 20),
                 TextButton(
-                  onPressed:
-                      () =>
-                          Navigator.pushReplacementNamed(context, '/register'),
-                  child: const Text("Don’t have an account ? Sign Up"),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/reset-password');
-                  },
-                  child: const Text("Forgot your password?"),
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Back to the Sign In"),
                 ),
               ],
             ),
@@ -109,9 +91,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildInputField(
     String label,
     TextEditingController controller,
-    TextInputType keyboardType, {
-    bool isPassword = false,
-  }) {
+    TextInputType keyboardType,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -120,15 +101,13 @@ class _LoginPageState extends State<LoginPage> {
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
-          obscureText: isPassword,
-          validator:
-              (value) =>
-                  value == null || value.isEmpty ? 'Không được bỏ trống' : null,
+          validator: (value) =>
+              value == null || value.isEmpty ? 'Không được bỏ trống' : null,
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
-            hintText: isPassword ? "********" : "example@example.com",
+            hintText: "example@example.com",
           ),
         ),
       ],

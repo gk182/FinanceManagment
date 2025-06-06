@@ -20,6 +20,7 @@ class FinWiseApp extends StatelessWidget {
         '/welcome': (_) => const WelcomePage(),
         '/login': (_) => const LoginPage(),
         '/register': (_) => const RegisterPage(),
+        '/reset-password': (context) => const ResetPasswordPage(),
         '/home': (_) => const MainNavigationPage(),
       },
       home: const SplashPage(),
