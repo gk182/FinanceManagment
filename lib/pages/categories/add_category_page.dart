@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finance_managment/utils/user_helper.dart';
-
+import 'package:finance_managment/constant/app_colors.dart';
 class AddCategoryPage extends StatefulWidget {
   const AddCategoryPage({super.key});
 
@@ -97,7 +97,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
             },
             borderRadius: BorderRadius.circular(12),
             selectedColor: Colors.white,
-            fillColor: Colors.teal,
+            fillColor: AppColors.background,
             children: const [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),

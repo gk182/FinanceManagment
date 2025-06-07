@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:finance_managment/constant/app_colors.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -40,7 +41,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffe8fff0),
+      backgroundColor: AppColors.secondary,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -73,12 +74,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   ),
                   child: _isSending
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text("Send Email"),
+                      : const Text("Send Email", style: TextStyle(color: Colors.white),),
                 ),
                 const SizedBox(height: 20),
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text("Back to the Sign In"),
+                  child: const Text("Back to the Sign In", style: TextStyle(color: AppColors.textPrimary),),
                 ),
               ],
             ),

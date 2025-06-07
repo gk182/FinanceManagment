@@ -2,34 +2,25 @@ import 'package:flutter/material.dart';
 import '../../models/income_model.dart';
 import '../../models/expense_model.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'analytics_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:finance_managment/constant/app_colors.dart';
+
 // import 'dart:math';
 
 // Widget hiển thị phân tích theo năm
-class YearlyAnalyticsView extends StatefulWidget {
+class YearlyAnalyticsView extends StatelessWidget {
   final List<Income> incomes;
   final List<Expense> expenses;
+  final DateTime selectedDate;
+  final Function(DateTime) onDateChanged;
 
   const YearlyAnalyticsView({
     super.key,
     required this.incomes,
     required this.expenses,
+    required this.selectedDate,
+    required this.onDateChanged,
   });
-
-  @override
-  _YearlyAnalyticsViewState createState() => _YearlyAnalyticsViewState();
-}
-
-class _YearlyAnalyticsViewState extends State<YearlyAnalyticsView> {
-  late DateTime selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedDate = DateTime.now();
-  }
 
   // Phương thức hỗ trợ lọc các giao dịch trong năm được chọn
   List<dynamic> _filterTransactionsForYear(
@@ -53,11 +44,11 @@ class _YearlyAnalyticsViewState extends State<YearlyAnalyticsView> {
   Widget build(BuildContext context) {
     // Lọc các giao dịch cho năm được chọn
     final yearlyIncomes = _filterTransactionsForYear(
-      widget.incomes,
+      incomes,
       selectedDate,
     );
     final yearlyExpenses = _filterTransactionsForYear(
-      widget.expenses,
+      expenses,
       selectedDate,
     );
 
@@ -154,7 +145,7 @@ class _YearlyAnalyticsViewState extends State<YearlyAnalyticsView> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white, // Background color for the rounded container
+        color: AppColors.whiteBackground, // Background color for the rounded container
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0), // Rounded top-left corner
           topRight: Radius.circular(20.0), // Rounded top-right corner
@@ -174,15 +165,6 @@ class _YearlyAnalyticsViewState extends State<YearlyAnalyticsView> {
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
-                CalendarButton(
-                  selectedDate: selectedDate,
-                  onDateSelected: (date) {
-                    setState(() {
-                      selectedDate = date;
-                    });
-                  },
-                  format: CalendarFormat.month,
                 ),
               ],
             ),
@@ -215,7 +197,7 @@ class _YearlyAnalyticsViewState extends State<YearlyAnalyticsView> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '\$${yearlyBalance.toStringAsFixed(0)}',
+                            '\$${yearlyBalance.toStringAsFixed(2)}',
                             style: Theme.of(
                               context,
                             ).textTheme.headlineSmall?.copyWith(
@@ -259,7 +241,7 @@ class _YearlyAnalyticsViewState extends State<YearlyAnalyticsView> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '\$${totalYearlyIncome.toStringAsFixed(0)}',
+                                  '\$${totalYearlyIncome.toStringAsFixed(2)}',
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleLarge?.copyWith(
@@ -297,7 +279,7 @@ class _YearlyAnalyticsViewState extends State<YearlyAnalyticsView> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '\$${totalYearlyExpense.toStringAsFixed(0)}',
+                                  '\$${totalYearlyExpense.toStringAsFixed(2)}',
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleLarge?.copyWith(

@@ -2,33 +2,23 @@ import 'package:flutter/material.dart';
 import '../../models/income_model.dart' as income;
 import '../../models/expense_model.dart' as expense;
 import 'package:fl_chart/fl_chart.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'analytics_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:finance_managment/constant/app_colors.dart';
 
 // Widget hiển thị phân tích theo tuần
-class WeeklyAnalyticsView extends StatefulWidget {
+class WeeklyAnalyticsView extends StatelessWidget {
   final List<dynamic> incomes; // Danh sách thu nhập
   final List<dynamic> expenses; // Danh sách chi tiêu
+  final DateTime selectedDate;
+  final Function(DateTime) onDateChanged;
 
   const WeeklyAnalyticsView({
     super.key,
     required this.incomes,
     required this.expenses,
+    required this.selectedDate,
+    required this.onDateChanged,
   });
-
-  @override
-  _WeeklyAnalyticsViewState createState() => _WeeklyAnalyticsViewState();
-}
-
-class _WeeklyAnalyticsViewState extends State<WeeklyAnalyticsView> {
-  late DateTime selectedDate; // Use single selectedDate like Daily
-
-  @override
-  void initState() {
-    super.initState();
-    selectedDate = DateTime.now(); // Initialize with current date
-  }
 
   // Phương thức hỗ trợ lọc các giao dịch trong tuần được chọn
   List<dynamic> _filterTransactionsForWeek(
@@ -60,15 +50,9 @@ class _WeeklyAnalyticsViewState extends State<WeeklyAnalyticsView> {
 
   @override
   Widget build(BuildContext context) {
-    // Lọc các giao dịch cho tuần được chọn dựa trên selectedDate
-    final weeklyIncomes = _filterTransactionsForWeek(
-      widget.incomes,
-      selectedDate,
-    );
-    final weeklyExpenses = _filterTransactionsForWeek(
-      widget.expenses,
-      selectedDate,
-    );
+    // Dùng selectedDate từ widget
+    final weeklyIncomes = _filterTransactionsForWeek(incomes, selectedDate);
+    final weeklyExpenses = _filterTransactionsForWeek(expenses, selectedDate);
 
     // Combine and sort transactions for the chart and list
     final weeklyTransactions = [
@@ -174,7 +158,7 @@ class _WeeklyAnalyticsViewState extends State<WeeklyAnalyticsView> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white, // Background color for the rounded container
+        color: AppColors.whiteBackground, // Background color for the rounded container
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0), // Rounded top-left corner
           topRight: Radius.circular(20.0), // Rounded top-right corner
@@ -190,21 +174,11 @@ class _WeeklyAnalyticsViewState extends State<WeeklyAnalyticsView> {
               children: [
                 // Display the week range
                 Text(
-                  'Week of ${DateFormat('dd/MM/yyyy').format(selectedDate.subtract(Duration(days: selectedDate.weekday - 1)))} - ${DateFormat('dd/MM/yyyy').format(selectedDate.add(Duration(days: 7 - selectedDate.weekday)))}',
+                  '${DateFormat('dd/MM/yyyy').format(selectedDate.subtract(Duration(days: selectedDate.weekday - 1)))} - ${DateFormat('dd/MM/yyyy').format(selectedDate.add(Duration(days: 7 - selectedDate.weekday)))}',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
-                // Calendar Button for Week selection
-                CalendarButton(
-                  selectedDate: selectedDate,
-                  onDateSelected: (date) {
-                    setState(() {
-                      selectedDate = date; // Update selected date
-                    });
-                  },
-                  format: CalendarFormat.week, // Set format to week
                 ),
               ],
             ),

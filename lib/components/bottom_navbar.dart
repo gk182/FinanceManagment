@@ -17,7 +17,7 @@ class NavigationBarBottom extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.LightGreen, // Light green background
+        color: AppColors.secondary, // Light green background
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
@@ -48,7 +48,7 @@ class NavigationBarBottom extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.CaribbeanGreen : Colors.transparent,
+          color: isSelected ? AppColors.background : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Icon(

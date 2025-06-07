@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:finance_managment/constant/app_colors.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffe8fff0),
+      backgroundColor: AppColors.secondary,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   onPressed: _isLoading ? null : _login,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff2dcc9f),
+                    backgroundColor: AppColors.background,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 80,
                       vertical: 14,
@@ -83,20 +83,20 @@ class _LoginPageState extends State<LoginPage> {
                   child:
                       _isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text("Log In"),
+                          : const Text("Log In", style: TextStyle(color: Colors.white),),
                 ),
                 const SizedBox(height: 20),
                 TextButton(
                   onPressed:
                       () =>
                           Navigator.pushReplacementNamed(context, '/register'),
-                  child: const Text("Don’t have an account ? Sign Up"),
+                  child: const Text("Don’t have an account ? Sign Up", style: TextStyle(color: AppColors.textPrimary),),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/reset-password');
                   },
-                  child: const Text("Forgot your password?"),
+                  child: const Text("Forgot your password?", style: TextStyle(color: AppColors.textPrimary),),
                 ),
               ],
             ),

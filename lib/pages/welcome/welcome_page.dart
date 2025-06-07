@@ -7,7 +7,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.LightGreen, // nền nhạt
+      backgroundColor: AppColors.secondary, // nền nhạt
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -20,7 +20,7 @@ class WelcomePage extends StatelessWidget {
                   children: [
                     Image.asset(
                       'assets/icon/app_icon_white.png', // thay bằng ảnh logo của bạn
-                      height: 100,
+                      height: 200,
                     ),
                     const SizedBox(height: 16),
                     const Text(
@@ -28,7 +28,7 @@ class WelcomePage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF00D09E),
+                        color: AppColors.background,
                       ),
                     ),
                   ],
@@ -44,7 +44,7 @@ class WelcomePage extends StatelessWidget {
                       Navigator.pushNamed(context, '/login');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF00D09E),
+                      backgroundColor: AppColors.background,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -52,7 +52,10 @@ class WelcomePage extends StatelessWidget {
                     ),
                     child: const Text(
                       'Log In',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -67,7 +70,7 @@ class WelcomePage extends StatelessWidget {
                       Navigator.pushNamed(context, '/register');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFB2F5E5), // màu nhạt hơn
+                      backgroundColor: AppColors.primary, // màu nhạt hơn
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -77,7 +80,7 @@ class WelcomePage extends StatelessWidget {
                       'Sign Up',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Color(0xFF00D09E),
+                        color: AppColors.textPrimary,
                       ),
                     ),
                   ),

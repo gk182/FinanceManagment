@@ -2,33 +2,23 @@ import 'package:flutter/material.dart';
 import '../../models/income_model.dart';
 import '../../models/expense_model.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'analytics_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:finance_managment/constant/app_colors.dart';
 
 // Widget hiển thị phân tích theo tháng
-class MonthlyAnalyticsView extends StatefulWidget {
+class MonthlyAnalyticsView extends StatelessWidget {
   final List<Income> incomes;
   final List<Expense> expenses;
+  final DateTime selectedDate;
+  final Function(DateTime) onDateChanged;
 
   const MonthlyAnalyticsView({
     super.key,
     required this.incomes,
     required this.expenses,
+    required this.selectedDate,
+    required this.onDateChanged,
   });
-
-  @override
-  _MonthlyAnalyticsViewState createState() => _MonthlyAnalyticsViewState();
-}
-
-class _MonthlyAnalyticsViewState extends State<MonthlyAnalyticsView> {
-  late DateTime selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedDate = DateTime.now();
-  }
 
   // Phương thức hỗ trợ lọc các giao dịch trong tháng được chọn
   List<dynamic> _filterTransactionsForMonth(
@@ -48,11 +38,11 @@ class _MonthlyAnalyticsViewState extends State<MonthlyAnalyticsView> {
   Widget build(BuildContext context) {
     // Lọc các giao dịch cho tháng được chọn
     final monthlyIncomes = _filterTransactionsForMonth(
-      widget.incomes,
+      incomes,
       selectedDate,
     );
     final monthlyExpenses = _filterTransactionsForMonth(
-      widget.expenses,
+      expenses,
       selectedDate,
     );
 
@@ -150,7 +140,7 @@ class _MonthlyAnalyticsViewState extends State<MonthlyAnalyticsView> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white, // Background color for the rounded container
+        color: AppColors.whiteBackground, // Background color for the rounded container
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0), // Rounded top-left corner
           topRight: Radius.circular(20.0), // Rounded top-right corner
@@ -165,20 +155,11 @@ class _MonthlyAnalyticsViewState extends State<MonthlyAnalyticsView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  DateFormat('MMMM yyyy').format(selectedDate),
+                  '${selectedDate.month}/${selectedDate.year}',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
-                CalendarButton(
-                  selectedDate: selectedDate,
-                  onDateSelected: (date) {
-                    setState(() {
-                      selectedDate = date;
-                    });
-                  },
-                  format: CalendarFormat.month,
                 ),
               ],
             ),
@@ -211,7 +192,7 @@ class _MonthlyAnalyticsViewState extends State<MonthlyAnalyticsView> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '\$${monthlyBalance.toStringAsFixed(0)}',
+                            '\$${monthlyBalance.toStringAsFixed(2)}',
                             style: Theme.of(
                               context,
                             ).textTheme.headlineSmall?.copyWith(
@@ -254,7 +235,7 @@ class _MonthlyAnalyticsViewState extends State<MonthlyAnalyticsView> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '\$${totalMonthlyIncome.toStringAsFixed(0)}',
+                                  '\$${totalMonthlyIncome.toStringAsFixed(2)}',
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleLarge?.copyWith(
@@ -292,7 +273,7 @@ class _MonthlyAnalyticsViewState extends State<MonthlyAnalyticsView> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '\$${totalMonthlyExpense.toStringAsFixed(0)}',
+                                  '\$${totalMonthlyExpense.toStringAsFixed(2)}',
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleLarge?.copyWith(

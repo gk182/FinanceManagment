@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class UserHelper {
   static String? get uid => FirebaseAuth.instance.currentUser?.uid;
+  static final user = FirebaseAuth.instance.currentUser!;
+
 }
 
 // Cách sử dụng:

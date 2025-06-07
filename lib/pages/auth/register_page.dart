@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:finance_managment/services/category_service.dart';
+import 'package:finance_managment/constant/app_colors.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -56,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffe8fff0),
+      backgroundColor: AppColors.secondary,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -75,18 +76,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 ElevatedButton(
                   onPressed: _isLoading ? null : _register,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff2dcc9f),
+                    backgroundColor: AppColors.background,
                     padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 14),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   ),
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text("Sign Up"),
+                      : const Text("Sign Up", style: TextStyle(color: Colors.white),),
                 ),
                 const SizedBox(height: 20),
                 TextButton(
                   onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
-                  child: const Text("Already Have An Account? Log In"),
+                  child: const Text("Already Have An Account? Log In", style: TextStyle(color: AppColors.textPrimary),),
                 )
               ],
             ),

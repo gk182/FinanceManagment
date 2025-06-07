@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'add_category_page.dart';
 import 'package:finance_managment/utils/user_helper.dart';
-
+import 'package:finance_managment/constant/app_colors.dart';
 class CategoryPage extends StatelessWidget {
   const CategoryPage({super.key});
 
@@ -11,9 +11,9 @@ class CategoryPage extends StatelessWidget {
     final String? userId = UserHelper.uid;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF00DDB5),
+      backgroundColor: AppColors.background,
       floatingActionButton: FloatingActionButton.small(
-        backgroundColor: const Color(0xFF90C4FF),
+        backgroundColor: AppColors.OceanBlue,
         child: const Icon(Icons.add, color: Colors.white),
         onPressed: () {
           showDialog(context: context, builder: (_) => const AddCategoryPage());
@@ -28,14 +28,14 @@ class CategoryPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
             const SizedBox(height: 16),
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Color(0xFFEFFFF7),
+                  color: AppColors.whiteBackground,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                 ),
                 child: StreamBuilder<QuerySnapshot>(
@@ -98,7 +98,7 @@ class CategoryPage extends StatelessWidget {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: const Color(0xFF90C4FF),
+                              color: AppColors.LightBlue,
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Column(

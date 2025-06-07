@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
 import '../../models/income_model.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'analytics_screen.dart';
 import 'package:intl/intl.dart';
-
+import 'package:finance_managment/constant/app_colors.dart';
 // Widget hiển thị phân tích theo ngày
-class DailyAnalyticsView extends StatefulWidget {
+class DailyAnalyticsView extends StatelessWidget {
   final List<dynamic> incomes; // Danh sách thu nhập
   final List<dynamic> expenses; // Danh sách chi tiêu
+  final DateTime selectedDate;
+  final Function(DateTime) onDateChanged;
 
   const DailyAnalyticsView({
     super.key,
     required this.incomes,
     required this.expenses,
+    required this.selectedDate,
+    required this.onDateChanged,
   });
-
-  @override
-  _DailyAnalyticsViewState createState() => _DailyAnalyticsViewState();
-}
-
-class _DailyAnalyticsViewState extends State<DailyAnalyticsView> {
-  late DateTime selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedDate = DateTime.now();
-  }
 
   // Phương thức hỗ trợ lọc các giao dịch trong ngày được chọn
   List<dynamic> _filterTransactionsForSelectedDay(
@@ -53,11 +43,11 @@ class _DailyAnalyticsViewState extends State<DailyAnalyticsView> {
   Widget build(BuildContext context) {
     // Lọc các giao dịch cho ngày được chọn
     final dailyIncomes = _filterTransactionsForSelectedDay(
-      widget.incomes,
+      incomes,
       selectedDate,
     );
     final dailyExpenses = _filterTransactionsForSelectedDay(
-      widget.expenses,
+      expenses,
       selectedDate,
     );
 
@@ -127,7 +117,7 @@ class _DailyAnalyticsViewState extends State<DailyAnalyticsView> {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white, // Background color for the rounded container
+        color: AppColors.whiteBackground, // Background color for the rounded container
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0), // Rounded top-left corner
           topRight: Radius.circular(20.0), // Rounded top-right corner
@@ -148,14 +138,12 @@ class _DailyAnalyticsViewState extends State<DailyAnalyticsView> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                CalendarButton(
-                  selectedDate: selectedDate,
-                  onDateSelected: (date) {
-                    setState(() {
-                      selectedDate = date;
-                    });
-                  },
-                ),
+                // CalendarButton(
+                //   selectedDate: selectedDate,
+                //   onDateSelected: (date) {
+                //     onDateChanged(date);
+                //   },
+                // ),
               ],
             ),
           ),
@@ -187,7 +175,7 @@ class _DailyAnalyticsViewState extends State<DailyAnalyticsView> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '\$${dailyBalance.toStringAsFixed(0)}',
+                            '\$${dailyBalance.toStringAsFixed(2)}',
                             style: Theme.of(
                               context,
                             ).textTheme.headlineSmall?.copyWith(
@@ -229,7 +217,7 @@ class _DailyAnalyticsViewState extends State<DailyAnalyticsView> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '\$${totalDailyIncome.toStringAsFixed(0)}',
+                                  '\$${totalDailyIncome.toStringAsFixed(2)}',
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleLarge?.copyWith(
@@ -267,7 +255,7 @@ class _DailyAnalyticsViewState extends State<DailyAnalyticsView> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  '\$${totalDailyExpense.toStringAsFixed(0)}',
+                                  '\$${totalDailyExpense.toStringAsFixed(2)}',
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleLarge?.copyWith(
@@ -418,8 +406,8 @@ class _DailyAnalyticsViewState extends State<DailyAnalyticsView> {
     final color = isIncome ? Colors.green : Colors.red;
     final amount =
         isIncome
-            ? '+\$${transaction.amount.toStringAsFixed(0)}'
-            : '-\$${transaction.amount.toStringAsFixed(0)}';
+            ? '+\$${transaction.amount.toStringAsFixed(2)}'
+            : '-\$${transaction.amount.toStringAsFixed(2)}';
 
     return Container(
       padding: const EdgeInsets.all(16),
