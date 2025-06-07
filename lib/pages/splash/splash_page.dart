@@ -35,7 +35,7 @@ class _SplashPageState extends State<SplashPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/icon/app_icon.png', width: 120), // logo FinWise
+            Image.asset('assets/icon/app_icon.png', width: 200), // logo FinWise
             const SizedBox(height: 20),
             const Text(
               'FinWise',
