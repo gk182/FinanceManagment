@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -20,10 +21,23 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> _transactions = [];
   bool _isLoading = true;
 
+  String _userName = ''; // Biến để lưu tên người dùng
+
   @override
   void initState() {
     super.initState();
     _loadTransactions();
+    _loadUserName(); // Lấy tên người dùng khi khởi tạo
+  }
+
+  // Hàm lấy tên người dùng từ FirebaseAuth
+  Future<void> _loadUserName() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        _userName = user.displayName ?? user.email?.split('@').first ?? 'User'; // Nếu không có tên hiển thị thì lấy phần tên từ email
+      });
+    }
   }
 
   Future<void> _loadTransactions() async {
@@ -230,11 +244,11 @@ class _HomePageState extends State<HomePage> {
 
               // Welcome Text
               const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Hi, Welcome Back',
-                  style: TextStyle(
+                  'Hi, $_userName',  // Chào mừng người dùng với tên của họ
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

@@ -120,6 +120,7 @@ class _AddIncomePageState extends State<AddIncomePage> {
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 27, 231, 173),
+      resizeToAvoidBottomInset: true, // Thêm dòng này để tránh overflow
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -128,55 +129,46 @@ class _AddIncomePageState extends State<AddIncomePage> {
           isEditing ? 'EDIT INCOME' : 'ADD NEW INCOME',
           style: const TextStyle(fontSize: 16, color: Colors.white),
         ),
-
         centerTitle: true,
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 12),
-            const Text(
-              'Choose Category',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView( // Bọc toàn bộ nội dung bằng SingleChildScrollView
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 12),
+              const Text(
+                'Choose Category',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 70,
-              child:
-                  _incomeCategories.isEmpty
-                      ? const Center(child: CircularProgressIndicator())
-                      : ListView.builder(
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 70,
+                child: _incomeCategories.isEmpty
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: _incomeCategories.length,
                         itemBuilder: (context, index) {
                           final cat = _incomeCategories[index];
                           return GestureDetector(
-                            onTap:
-                                () => setState(
-                                  () => _selectedCategoryIndex = index,
-                                ),
+                            onTap: () => setState(() => _selectedCategoryIndex = index),
                             child: Container(
                               margin: const EdgeInsets.symmetric(horizontal: 6),
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color:
-                                    _selectedCategoryIndex == index
-                                        ? const Color.fromARGB(195, 47, 54, 232)
-                                        : const Color.fromARGB(
-                                          255,
-                                          115,
-                                          132,
-                                          225,
-                                        ).withOpacity(0.4),
+                                color: _selectedCategoryIndex == index
+                                    ? const Color.fromARGB(195, 47, 54, 232)
+                                    : const Color.fromARGB(255, 115, 132, 225).withOpacity(0.4),
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
                                 IconData(
                                   cat.iconCode,
-                                  fontFamily: 'MaterialIcons', // ❗ fix cứng
+                                  fontFamily: 'MaterialIcons',
                                 ),
                                 color: Colors.white,
                               ),
@@ -184,10 +176,9 @@ class _AddIncomePageState extends State<AddIncomePage> {
                           );
                         },
                       ),
-            ),
-            const SizedBox(height: 24),
-            Expanded(
-              child: Container(
+              ),
+              const SizedBox(height: 24),
+              Container(
                 padding: const EdgeInsets.all(24),
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 27, 231, 173),
@@ -266,8 +257,8 @@ class _AddIncomePageState extends State<AddIncomePage> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

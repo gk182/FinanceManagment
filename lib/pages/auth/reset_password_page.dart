@@ -27,7 +27,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           const SnackBar(content: Text("Email reset the password has been sent")),
         );
 
-        Navigator.pop(context); // Quay lại LoginPage
+        Navigator.pop(context); 
       } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(e.message ?? 'Email failed')),
