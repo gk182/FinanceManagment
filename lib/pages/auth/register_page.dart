@@ -116,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
             filled: true,
             fillColor: Colors.white,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
-            hintText: "example@example.com",
+            hintText: isPassword ? "********" : "example@example.com",
           ),
         ),
       ],
