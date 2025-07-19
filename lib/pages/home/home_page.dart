@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage> {
               .collection('transactions')
               .where(
                 'date',
+              
                 isGreaterThanOrEqualTo: Timestamp.fromDate(startDate),
               )
               .where('date', isLessThanOrEqualTo: Timestamp.fromDate(endDate))
